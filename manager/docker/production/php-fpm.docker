@@ -1,4 +1,4 @@
-FROM php:7.2-fpm AS builder
+FROM php:7.3-fpm AS builder
 
 RUN apt-get update && apt-get install -y unzip
 
@@ -12,11 +12,13 @@ COPY ./composer.json ./composer.lock ./
 
 RUN composer install --no-dev --no-scripts --prefer-dist --optimize-autoloader
 
-FROM php:7.2-fpm
+FROM php:7.3-fpm
 
-RUN docker-php-ext-install opcache
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql opcache
 
-COPY ./docker/production/php/default/ini /usr/local/etc/php/conf.d/default.ini
+COPY ./docker/production/php/default.ini /usr/local/etc/php/conf.d/default.ini
 
 WORKDIR /app
 
