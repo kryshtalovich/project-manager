@@ -24,5 +24,17 @@ services:
       - ./manager:/app
       - composer:/root/.composer.cache
 
+  manager-postgres:
+    image: postgres:11.2-alpine
+    volumes:
+    - manager-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: app
+      POSTRESS_PASSWORD: secret
+      POSTGRESS_DB: app
+    ports:
+    - "54321:5432"
+
 volumes:
+  manager-postgres:
   composer:
