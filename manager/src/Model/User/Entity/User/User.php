@@ -29,6 +29,10 @@ class User
      */
     private $passwordHash;
     /**
+     * @var ResetToken|null
+     */
+    private $resetToken;
+    /**
      * @var string|null
      */
     private $confirmToken;
@@ -93,6 +97,28 @@ class User
         $this->status = self::STATUS_ACTIVE;
     }
 
+    public function requestPasswordReset(ResetToken $token, \DateTimeImmutable $date): void
+    {
+        if (!$this->email){
+            throw new \DomainException('Email is not specified!');
+        }
+        if ($this->resetToken && !$this->resetToken->isExpiredTo($date)){
+            throw new \DomainException('Resetting is already requested!');
+        }
+        $this->resetToken = $token;
+    }
+
+    public function passwordReset(\DateTimeImmutable $date, string $hash): void
+    {
+        if (!$this->resetToken){
+            throw new \DomainException('Resetting is not requested.');
+        }
+        if ($this->resetToken->isExpiredTo($date)){
+            throw new \DomainException('Reset token is expired.');
+        }
+        $this->passwordHash = $hash;
+        $this->resetToken = null;
+    }
     public function isNew(): bool
     {
         return $this->status === self::STATUS_NEW;
@@ -139,5 +165,10 @@ class User
     public function getNetworks(): array
     {
         return $this->networks->toArray();
+    }
+
+    public function getResetToken(): ?ResetToken
+    {
+        return $this->resetToken;
     }
 }
