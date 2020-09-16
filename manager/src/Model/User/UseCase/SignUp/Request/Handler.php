@@ -46,16 +46,18 @@ class Handler
 
         $user = new User(
             Id::next(),
-            new \DateTimeImmutable(),
+            new \DateTimeImmutable()
+        );
+
+        $user->signUpByEmail(
             $email,
             $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate()
         );
-
         $this->users->add($user);
 
-        $this->sender->send($email,$token);
-
         $this->flusher->flush();
+
+        $this->sender->send($email,$token);
     }
 }
