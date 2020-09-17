@@ -10,6 +10,8 @@ interface UserRepository
 
     public function getByEmail(Email $email): User;
 
+    public function get(Id $id): User;
+
     public function findByResetToken(string $token): ?User;
 
     public function hasByEmail(Email $email): bool;
