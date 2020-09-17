@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Model\User\Entity\User;
 
@@ -8,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifecycleCallback
- * @ORM\Table(name="user_users", uniqueConstrains={
- *      @ORM\UniqueConstrains(Columns={"email"}),
- *      @ORM\UniqueConstrains(Columns={"reset_token_token"})
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="user_users", uniqueConstraints={
+ *      @ORM\UniqueConstraint(columns={"email"}),
+ *      @ORM\UniqueConstraint(columns={"reset_token_token"})
  * })
  */
 class User
@@ -53,7 +54,7 @@ class User
     private $confirmToken;
     /**
      * @var string
-     * @ORM\Column(type="string", lenght=16)
+     * @ORM\Column(type="string", length=16)
      */
     private $status;
     /**
@@ -63,7 +64,7 @@ class User
     private $role;
     /**
      * @var Network[]\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Network", mappedBy="User", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Network", mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $networks;
 
