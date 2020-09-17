@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Model\User\Entity\User;
-
-
+use Doctrine\ORM\Mapping as ORM;
 
 use Ramsey\Uuid\Uuid;
 
@@ -11,10 +11,14 @@ class Network
 {
     /**
      * @var string
+     * @ORM\Column(type="guid")
+     * @ORM\Id
      */
     private $id;
     /**
      * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="networks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $user;
     /**
