@@ -11,7 +11,7 @@ use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\User;
 use App\Model\User\Entity\User\UserRepository;
 use App\Model\Flusher;
-use App\User\Model\Service\ConfirmTokenSender;
+use App\Model\User\Entity\Service\ConfirmTokenSender;
 
 class Handler
 {
