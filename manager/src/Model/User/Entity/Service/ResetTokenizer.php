@@ -11,7 +11,7 @@ class ResetTokenizer
 {
     private $interval;
 
-    public function __construct(\DateTimeImmutable $interval)
+    public function __construct(\DateInterval $interval)
     {
         $this->interval = $interval;
     }
