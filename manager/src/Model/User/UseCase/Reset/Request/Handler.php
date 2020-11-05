@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\User\UseCase\Reset;
 
 use App\Model\Flusher;
-use App\Model\User\Entity\Service\ResetTokenizer;
+use App\Model\User\Service\ResetTokenizer;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\UserRepository;
 

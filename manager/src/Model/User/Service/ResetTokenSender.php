@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\User\Entity\Service;
+namespace App\Model\User\Service;
 
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\ResetToken;
