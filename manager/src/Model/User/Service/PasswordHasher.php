@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\User\Entity\Service;
+namespace App\Model\User\Service;
 
 class PasswordHasher
 {
