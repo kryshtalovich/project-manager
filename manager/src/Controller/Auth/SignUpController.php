@@ -10,21 +10,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SignUpController extends AbstractController
 {
     private $logger;
     private $translator;
 
-    public function __construct(LoggerInterface $logger, Translator $translator)
+    public function __construct(LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->logger = $logger;
         $this->translator = $translator;
     }
 
     /**
-     * @Route("/signup", "name=auth.signup")
+     * @Route("/signup", name="auth.signup")
      * @param Request $request
      * @param SignUp\Request\Handler $handler
      * @return Response
@@ -46,11 +46,11 @@ class SignUpController extends AbstractController
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $this->addFlash('error', $this->translator->trans($e->getMessage(), [], 'exceptions'));
             }
-
-            return $this->render('app/auth/signup.html.twig', [
-                'form' => $form->createView()
-            ]);
         }
+
+        return $this->render('app/auth/signup.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
