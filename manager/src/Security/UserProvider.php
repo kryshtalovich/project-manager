@@ -38,10 +38,10 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class): bool
     {
-        return $class instanceof UserIdentity;
+        return $class === UserIdentity::class;
     }
 
-    public function loadUser($username): AuthView
+    private function loadUser($username): AuthView
     {
         $user = $this->users->findForAuth($username);
 
@@ -59,7 +59,7 @@ class UserProvider implements UserProviderInterface
             $user->email,
             $user->password_hash,
             $user->role,
-            $user->status,
+            $user->status
         );
     }
 }
