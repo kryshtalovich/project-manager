@@ -11,6 +11,7 @@ security:
             security: false
         main:
             anonymous: true
+            user_checker: App\Security\UserChecker
             lazy: true
             provider: users_in_memory
             guard:
