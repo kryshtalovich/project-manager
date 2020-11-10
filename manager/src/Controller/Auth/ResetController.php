@@ -46,7 +46,7 @@ class ResetController extends AbstractController
         }
 
         return $this->render('app/auth/reset/request.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 

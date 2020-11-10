@@ -13,4 +13,9 @@ class PasswordHasher
         }
         return $hash;
     }
+
+    public function validate(string $password, string $hash): bool
+    {
+        return password_verify($password, $hash);
+    }
 }
