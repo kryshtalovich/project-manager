@@ -3,4 +3,6 @@ language: php
 php:
   - 7.2
 
-script: make init
+script:
+  composer install
+  php manager/bin/phpunit
