@@ -5,4 +5,4 @@ php:
 
 script:
   composer install
-  php manager/bin/phpunit
+  php bin/phpunit
