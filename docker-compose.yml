@@ -23,7 +23,11 @@ services:
     volumes:
       - ./manager:/app
       - composer:/root/.composer.cache
-
+  manager-node:
+    image: node:12.0-alpine
+    volumes:
+    - ./manager:/app
+    working_dir: /app
   manager-postgres:
     image: postgres:11.2-alpine
     volumes:
