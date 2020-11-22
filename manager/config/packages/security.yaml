@@ -16,6 +16,8 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+                    - App\Security\OAuth\FacebookAuthenticator
+                entry_point: App\Security\LoginFormAuthenticator
             remember_me:
               secret: '%kernel.secret%'
               lifetime: 604800
@@ -40,6 +42,7 @@ security:
 
     access_control:
      - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+     - { path: ^/oauth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
      - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
      - { path: ^/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
      - { path: ^/logout, roles: ROLE_USER }

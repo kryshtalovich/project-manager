@@ -1,37 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Login page{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        <h1>Login</h1>
+
+        <div class="form-group">
+            <label for="inputEmail" class="sr-only control-label required">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                   placeholder="Email" required autofocus>
         </div>
-    {% endif %}
+        <div class="form-group">
+            <label for="inputPassword" class="sr-only control-label required">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
+                   required>
+        </div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+        <div class="form-group">
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+        </div>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-    </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Log In</button>
+        </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+        <hr/>
+
+        <p>
+            <a href="{{ path('oauth.facebook') }}" class="btn btn-primary">Login via Facebook</a>
+        </p>
+    </form>
 {% endblock %}
