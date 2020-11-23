@@ -23,6 +23,15 @@ services:
     volumes:
       - ./manager:/app
       - composer:/root/.composer.cache
+    depends_on:
+      - manager-postgres
+      - mailer
+  manager-node-watch:
+    image: node:12.0-alpine
+      volumes:
+        - ./manager:/app
+      workdir: /app
+      command: sh -c "until [ -f .ready ] ; sleep 1 ; done && npm run watch"
   manager-node:
     image: node:12.0-alpine
     volumes:
