@@ -20,7 +20,7 @@ class Handler
         $this->flusher = $flusher;
     }
 
-    public function handler(Command $command): void
+    public function handle(Command $command): void
     {
         $user = $this->users->get(new Id($command->id));
 
