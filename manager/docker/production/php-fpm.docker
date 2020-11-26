@@ -12,6 +12,22 @@ COPY ./composer.json ./composer.lock ./
 
 RUN composer install --no-dev --no-scripts --prefer-dist --optimize-autoloader
 
+####################################
+
+FROM node:12.7-alpine AS node-builder
+
+WORKDIR /app
+
+COPY ./package.json /.yarn.lock ./
+
+RUN yarn install && npm rebuild node-saas
+
+COPY ./ ./
+
+RUN npm run build
+
+####################################
+
 FROM php:7.3-fpm
 
 RUN apt-get update && apt-get install -y libpq-dev \
@@ -22,8 +38,8 @@ COPY ./docker/production/php/default.ini /usr/local/etc/php/conf.d/default.ini
 
 WORKDIR /app
 
-COPY --from=builder /app ./
-
+COPY --from=php-cli-builder /app ./
+COPY --from=node-builder /app/public/build ./public/build
 COPY ./ ./
 
 ENV APP_ENV prod
