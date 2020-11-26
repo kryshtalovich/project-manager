@@ -47,6 +47,11 @@ services:
       POSTGRESS_DB: app
     ports:
     - "54321:5432"
+  manager-redis:
+    image: redis:3.0-alpine
+    volumes:
+    - manager-redis:/data
+    command: redis-server --requirepass secret
 
   mailer:
     image: mailhog/mailhog
@@ -55,4 +60,5 @@ services:
 
 volumes:
   manager-postgres:
+  manager-redis:
   composer:
