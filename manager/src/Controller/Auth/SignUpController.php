@@ -7,7 +7,6 @@ namespace App\Controller\Auth;
 use App\Model\User\UseCase\SignUp;
 use App\ReadModel\User\UserFetcher;
 use App\Security\LoginFormAuthenticator;
-use Monolog\ErrorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +17,10 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class SignUpController extends AbstractController
 {
     private $users;
-    private $errors;
 
-    public function __construct(UserFetcher $users, ErrorHandler $errors)
+    public function __construct(UserFetcher $users)
     {
         $this->users = $users;
-        $this->errors = $errors;
     }
 
     /**
@@ -91,7 +88,6 @@ class SignUpController extends AbstractController
                 'main'
             );
         } catch (\DomainException $e) {
-            $this->errors->handleError('error', $e);
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('auth.signup');
         }
