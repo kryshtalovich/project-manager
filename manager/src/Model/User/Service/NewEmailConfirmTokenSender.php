@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\User\Service;
 
 use App\Model\User\Entity\User\Email;
-use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email as MimeEmail;
 use Twig\Environment;
 
@@ -14,7 +14,7 @@ class NewEmailConfirmTokenSender
     private $mailer;
     private $twig;
 
-    public function __construct(Mailer $mailer, Environment $twig)
+    public function __construct(MailerInterface $mailer, Environment $twig)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
