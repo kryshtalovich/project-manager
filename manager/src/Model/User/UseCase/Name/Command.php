@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace App\Model\User\UseCase\Name;
 
-use Symfony\Component\Validator\Constraint as Assert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Command
 {
     /**
      * @var string
-     * @Assert\NotBlank
+     * @Assert\NotBlank()
      */
     public $id;
     /**
      * @var string
-     * @Assert\NotBlank
+     * @Assert\NotBlank()
      */
     public $firstName;
     /**
      * @var string
-     * @Assert\NotBlank
+     * @Assert\NotBlank()
      */
     public $lastName;
 
-    public function __construct($id)
+    public function __construct(string $id)
     {
         $this->id = $id;
     }
