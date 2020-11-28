@@ -9,7 +9,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email as MimeEmail;
 use Twig\Environment;
 
-class ConfirmTokenSender
+class SignUpConfirmTokenSender
 {
     private $mailer;
     private $twig;

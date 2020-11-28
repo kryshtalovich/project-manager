@@ -6,7 +6,7 @@ namespace App\Model\User\Service;
 
 use Ramsey\Uuid\Uuid;
 
-class ConfirmTokenizer
+class NewEmailConfirmTokenizer
 {
     public function generate(): string
     {
