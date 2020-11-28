@@ -112,7 +112,7 @@ class User
         $this->confirmToken = null;
     }
 
-    public static function signUpByNetwork(Id $id, \DateTimeImmutable $date, Name $name, string $network, string $identity): User
+    public static function signUpByNetwork(Id $id, \DateTimeImmutable $date, Name $name, string $network, string $identity): self
     {
         $user = new self($id, $date, $name);
         $user->attachNetwork($network, $identity);
