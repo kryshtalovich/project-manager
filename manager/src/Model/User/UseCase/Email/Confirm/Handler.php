@@ -23,7 +23,7 @@ class Handler
     {
         $user = $this->users->get(new Id($command->id));
 
-        $user->confirmEmailChangign($command->token);
+        $user->confirmEmailChanging($command->token);
 
         $this->flusher->flush();
     }
