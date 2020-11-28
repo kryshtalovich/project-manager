@@ -9,6 +9,14 @@ class Command
     /**
      * @var string
      */
+    public $firstName;
+    /**
+     * @var string
+     */
+    public $lastName;
+    /**
+     * @var string
+     */
     public $network;
     /**
      * @var string

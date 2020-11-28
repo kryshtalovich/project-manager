@@ -2,6 +2,7 @@
 
 namespace App\Model\User\UseCase\SignUp\Request;
 
+use App\Model\User\Entity\User\Name;
 use App\Model\User\Service\SignUpConfirmTokenizer;
 use App\Model\User\Service\PasswordHasher;
 use App\Model\User\Entity\User\Email;
@@ -45,6 +46,10 @@ class Handler
         $user = User::signUpByEmail(
             Id::next(),
             new \DateTimeImmutable(),
+            new Name(
+                $command->firstName,
+                $command->lastName
+            ),
             $email,
             $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate()
