@@ -1,34 +1,30 @@
 <?php
 
-namespace App\Model\User\UseCase\SignUp\Request;
+declare(strict_types=1);
 
-use App\Model\User\Service\SignUpConfirmTokenizer;
-use App\Model\User\Service\PasswordHasher;
+namespace App\Model\User\UseCase\Email\Request;
+
+use App\Model\Flusher;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
-use App\Model\User\Entity\User\User;
 use App\Model\User\Entity\User\UserRepository;
-use App\Model\Flusher;
-use App\Model\User\Service\SignUpConfirmTokenSender;
+use App\Model\User\Service\NewEmailConfirmTokenizer;
+use App\Model\User\Service\NewEmailConfirmTokenSender;
 
 class Handler
 {
     private $users;
-    private $hasher;
     private $tokenizer;
     private $sender;
     private $flusher;
 
     public function __construct(
         UserRepository $users,
-        PasswordHasher $hasher,
-        SignUpConfirmTokenizer $tokenizer,
-        SignUpConfirmTokenSender $sender,
+        NewEmailConfirmTokenizer $tokenizer,
+        NewEmailConfirmTokenSender $sender,
         Flusher $flusher
-    )
-    {
+    ) {
         $this->users = $users;
-        $this->hasher = $hasher;
         $this->tokenizer = $tokenizer;
         $this->sender = $sender;
         $this->flusher = $flusher;
@@ -36,24 +32,21 @@ class Handler
 
     public function handle(Command $command): void
     {
+        $user = $this->users->get(new Id($command->id));
+
         $email = new Email($command->email);
 
         if ($this->users->hasByEmail($email)) {
-            throw new \DomainException('User already exist!');
+            throw new \DomainException('Email is already in use.');
         }
 
-        $user = User::signUpByEmail(
-            Id::next(),
-            new \DateTimeImmutable(),
+        $user->requestEmailChanging(
             $email,
-            $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate()
         );
 
-        $this->users->add($user);
-
         $this->flusher->flush();
 
-        $this->sender->send($email,$token);
+        $this->sender->send($email, $token);
     }
 }
