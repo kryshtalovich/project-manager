@@ -2,7 +2,6 @@
 
 {% block body %}
     <p>Email Confirm Link:</p>
-    {% set url = url('/profile/email/{token}', {'token': token}) %}
-
+    {% set url = url('profile.email.confirm', {'token': token}) %}
     <p><a href="{{ url }}">{{ url }}</a></p>
 {% endblock %}

@@ -36,7 +36,7 @@ class Handler
 
         $email = new Email($command->email);
 
-        if ($this->users->getByEmail($email)) {
+        if ($this->users->hasByEmail($email)) {
             throw new \DomainException('Email is already in use.');
         }
 
@@ -47,6 +47,6 @@ class Handler
 
         $this->flusher->flush();
 
-        $this->sender->send();
+        $this->sender->send($email, $token);
     }
 }
