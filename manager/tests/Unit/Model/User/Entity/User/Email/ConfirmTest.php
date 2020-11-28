@@ -6,7 +6,7 @@ namespace App\Tests\Unit\Model\User\Entity\User\Email;
 
 use App\Model\User\Entity\User\Email;
 use App\Tests\Builder\User\UserBuilder;
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ConfirmTest extends TestCase
 {
@@ -31,7 +31,7 @@ class ConfirmTest extends TestCase
         $user = (new UserBuilder())->viaEmail()->confirmed()->build();
 
         $this->expectExceptionMessage('Changing is not requested.');
-        $user->requestEmailChanging('token');
+        $user->confirmEmailChanging('token');
     }
 
     public function testIncorrect(): void
@@ -40,10 +40,10 @@ class ConfirmTest extends TestCase
 
         $user->requestEmailChanging(
             $email = new Email('new@app.test'),
-            $token = 'token'
+            'token'
         );
 
         $this->expectExceptionMessage('Incorrect changing token.');
-        $user->requestEmailChanging('incorrect-token');
+        $user->confirmEmailChanging('incorrect-token');
     }
 }

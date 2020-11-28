@@ -6,7 +6,7 @@ namespace App\Tests\Unit\Model\User\Entity\User\Email;
 
 use App\Model\User\Entity\User\Email;
 use App\Tests\Builder\User\UserBuilder;
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
 {
@@ -19,13 +19,14 @@ class RequestTest extends TestCase
             $token = 'token'
         );
 
-        self::assertEquals($email, $user->getEmail());
+        self::assertEquals($email, $user->getNewEmail());
         self::assertEquals($token, $user->getNewEmailToken());
     }
 
     public function testSame(): void
     {
-        $user = (new UserBuilder())->viaEmail($email = new Email('new@app.test'))
+        $user = (new UserBuilder())
+            ->viaEmail($email = new Email('new@app.test'))
             ->confirmed()->build();
 
         $this->expectExceptionMessage('Email is already same!');
