@@ -52,6 +52,8 @@ class FacebookAuthenticator extends SocialAuthenticator
         $username = $network . ':' . $id;
 
         $command =  new Command($network, $id);
+        $command->firstName = $facebookUser->getFirstName();
+        $command->lastName = $facebookUser->getLastName();
 
         try {
             return $userProvider->loadUserByUsername($username);

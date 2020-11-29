@@ -53,6 +53,11 @@ class User
      */
     private $confirmToken;
     /**
+     * @var Name
+     * @ORM\Embedded(class="Name")
+     */
+    private $name;
+    /**
      * @var Email|null
      * @ORM\Column(type="user_user_email", name="new_email", nullable=true)
      */
@@ -78,17 +83,18 @@ class User
      */
     private $networks;
 
-    private function __construct(Id $id, \DateTimeImmutable $date)
+    private function __construct(Id $id, \DateTimeImmutable $date, Name $name)
     {
         $this->id = $id;
         $this->date = $date;
+        $this->name = $name;
         $this->role = Role::user();
         $this->networks = new ArrayCollection();
     }
 
-    public static function signUpByEmail(Id $id, \DateTimeImmutable $date, Email $email, string $hash, string $confirmToken): User
+    public static function signUpByEmail(Id $id, \DateTimeImmutable $date, Name $name, Email $email, string $hash, string $confirmToken): User
     {
-        $user = new self($id, $date);
+        $user = new self($id, $date, $name);
         $user->email = $email;
         $user->passwordHash = $hash;
         $user->confirmToken = $confirmToken;
@@ -106,15 +112,15 @@ class User
         $this->confirmToken = null;
     }
 
-    public static function signUpByNetwork(Id $id, \DateTimeImmutable $date, string $network, string $identity): User
+    public static function signUpByNetwork(Id $id, \DateTimeImmutable $date, Name $name, string $network, string $identity): self
     {
-        $user = new self($id, $date);
+        $user = new self($id, $date, $name);
         $user->attachNetwork($network, $identity);
         $user->status = self::STATUS_ACTIVE;
         return $user;
     }
 
-    private function attachNetwork(string $network, string $identity): void
+    public function attachNetwork(string $network, string $identity): void
     {
         foreach ($this->networks as $existing){
             if ($existing->isForNetwork($network)){
@@ -123,6 +129,20 @@ class User
         }
         $this->networks->add(new Network($this, $network, $identity));
         $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function detachNetwork(string $network, string $identity): void
+    {
+        foreach ($this->networks as $existing) {
+            if ($existing->isFor($network, $identity)) {
+                if (!$this->email && $this->networks->count() === 1) {
+                    throw new \DomainException('Unable to detach last identity.');
+                }
+                $this->networks->removeElement($existing);
+                return;
+            }
+        }
+        throw new \DomainException('Networks is not attached.');
     }
 
     public function requestPasswordReset(ResetToken $token, \DateTimeImmutable $date): void
@@ -177,6 +197,11 @@ class User
         }
         $this->passwordHash = $hash;
         $this->resetToken = null;
+    }
+
+    public function changeName(Name $name): void
+    {
+        $this->name = $name;
     }
 
     public function changeRole(Role $role): void
