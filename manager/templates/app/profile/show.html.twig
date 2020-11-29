@@ -20,14 +20,16 @@
                     <th>Name</th>
                     <td>
                         {{ user.first_name }} {{ user.last_name }}
-                        <a href="{{ path('profile.name') }}" class="btn btn-sm btn-outline-primary"><span class="fa fa-pencil"></span></a>
+                        <a href="{{ path('profile.name') }}" class="btn btn-sm btn-outline-primary"><span
+                                    class="fa fa-pencil"></span></a>
                     </td>
                 </tr>
                 <tr>
                     <th>Email</th>
                     <td>
                         {{ user.email }}
-                        <a href="{{ path('profile.email') }}" class="btn btn-sm btn-outline-primary"><span class="fa fa-pencil"></span></a>
+                        <a href="{{ path('profile.email') }}" class="btn btn-sm btn-outline-primary"><span
+                                    class="fa fa-pencil"></span></a>
                     </td>
                 </tr>
                 <tr>
@@ -51,23 +53,34 @@
         </div>
     </div>
 
-    {% if user.networks %}
-        <div class="card">
-            <div class="card-header">Networks</div>
-            <div class="card-body">
-                <table class="table table-bordered mb-0">
-                    <tbody>
-                    {% for network in user.networks %}
-                        <tr>
-                            <th>{{ network.network }}</th>
-                            <td>{{ network.identity }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    {% endif %}
-            <a href="{{ path('profile.oauth.facebook') }}" class="btn btn-facebook">Attach Facebook</a>
-
+    <div class="card">
+    <div class="card-header">Networks</div>
+    <div class="card-body">
+        {% if user.networks %}
+            <table class="table table-bordered">
+                <tbody>
+                {% for network in user.networks %}
+                    <tr>
+                        <th>{{ network.network }}</th>
+                        <td>{{ network.identity }}</td>
+                        <td>
+                            <form
+                                    action="{{ url('profile.oauth.detach', {network: network.network, identity: network.identity}) }}"
+                                    method="post"
+                                    onsubmit="return confirm('Are you sure?')"
+                            >
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <input type="hidden" name="token" value="{{ csrf_token('delete') }}"/>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <a href="{{ path('profile.oauth.facebook') }}" class="btn btn-facebook">Attach Facebook</a>
+    </div>
 {% endblock %}

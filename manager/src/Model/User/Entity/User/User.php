@@ -131,6 +131,20 @@ class User
         $this->status = self::STATUS_ACTIVE;
     }
 
+    public function detachNetwork(string $network, string $identity): void
+    {
+        foreach ($this->networks as $existing) {
+            if ($existing->isFor($network, $identity)) {
+                if (!$this->email && $this->networks->count() === 1) {
+                    throw new \DomainException('Unable to detach last identity.');
+                }
+                $this->networks->removeElement($existing);
+                return;
+            }
+        }
+        throw new \DomainException('Networks is not attached.');
+    }
+
     public function requestPasswordReset(ResetToken $token, \DateTimeImmutable $date): void
     {
         if (!$this->isActive()){
