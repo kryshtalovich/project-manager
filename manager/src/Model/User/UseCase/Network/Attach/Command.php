@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Model\User\UseCase\Network\Auth;
+namespace App\Model\User\UseCase\Network\Attach;
 
 class Command
 {
     /**
      * @var string
      */
-    public $firstName;
-    /**
-     * @var string
-     */
-    public $lastName;
+    public $user;
     /**
      * @var string
      */
@@ -23,8 +19,9 @@ class Command
      */
     public $identity;
 
-    public function __construct(string $network, string $identity)
+    public function __construct(string $user, string $network, string $identity)
     {
+        $this->user = $user;
         $this->network = $network;
         $this->identity = $identity;
     }
