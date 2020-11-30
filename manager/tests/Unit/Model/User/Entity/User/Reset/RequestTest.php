@@ -69,10 +69,9 @@ class RequestTest extends TestCase
         $now = new \DateTimeImmutable();
         $token = new ResetToken('token', $now->modify('+1 day'));
 
-        $user = (new UserBuilder())->vieNetwork()->build();
+        $user = (new UserBuilder())->viaNetwork()->build();
 
         $this->expectExceptionMessage('Email is not specified!');
-
         $user->requestPasswordReset($token, $now);
     }
 }
