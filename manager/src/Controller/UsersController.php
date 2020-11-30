@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Model\User\Entity\User\User;
 use App\ReadModel\User\UserFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,20 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UsersController extends AbstractController
 {
-    private $users;
-
-    public function __construct(UserFetcher $users)
-    {
-        $this->users = $users;
-    }
-
     /**
      * @Route("", name="users")
+     * @param Request $request
+     * @param UserFetcher $fetcher
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request, UserFetcher $fetcher): Response
     {
-        $users = $this->users->all();
+        $users = $fetcher->all();
 
         return $this->render('app/users/index.html.twig', compact('users'));
     }

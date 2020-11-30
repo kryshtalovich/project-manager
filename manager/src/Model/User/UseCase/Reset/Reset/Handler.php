@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Model\User\UseCase\Reset\Reset;
 
 use App\Model\Flusher;
-use App\Model\User\Service\PasswordHasher;
 use App\Model\User\Entity\User\UserRepository;
+use App\Model\User\Service\PasswordHasher;
 
 class Handler
 {
@@ -14,7 +14,7 @@ class Handler
     private $hasher;
     private $flusher;
 
-    private function __construct(UserRepository $users, PasswordHasher $hasher, Flusher $flusher)
+    public function __construct(UserRepository $users, PasswordHasher $hasher, Flusher $flusher)
     {
         $this->users = $users;
         $this->hasher = $hasher;
