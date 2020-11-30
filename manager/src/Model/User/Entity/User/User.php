@@ -236,12 +236,17 @@ class User
         return $this->date;
     }
 
-    public function getEmail(): Email
+    public function getName(): Name
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): ?Email
     {
         return $this->email;
     }
 
-    public function getPasswordHash(): string
+    public function getPasswordHash(): ?string
     {
         return $this->passwordHash;
     }
@@ -267,6 +272,11 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
     }
 
     public function getNewEmail(): ?Email
