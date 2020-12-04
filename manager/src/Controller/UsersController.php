@@ -133,6 +133,31 @@ class UsersController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/confrim", name="users.confirm", methods={"POST"})
+     * @param User $user
+     * @param Request $request
+     * @param Confirm\Manual\Handler $handler
+     * @return Response
+     */
+    public function confirm(User $user, Request $request, Confirm\Manual\Handler $handler): Response
+    {
+        if (!$this->isCsrfTokenValid('confirm', $request->request->get('token'))) {
+            return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
+        }
+
+        $command = new Confirm\Manual\Command($user->getId()->getValue());
+
+        try {
+            $handler->handle($command);
+        } catch (\DomainException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
+    }
+
+    /**
      * @Route("/{id}", name="users.show")
      * @param User $user
      * @return Response
