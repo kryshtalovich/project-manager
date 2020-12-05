@@ -7,7 +7,7 @@ namespace App\Tests\Unit\Model\User\Entity\User;
 use App\Tests\Builder\User\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
-class ActiveTest extends TestCase
+class ActivateTest extends TestCase
 {
     public function testSuccess(): void
     {
@@ -25,7 +25,7 @@ class ActiveTest extends TestCase
     {
         $user = (new UserBuilder())->viaEmail()->build();
 
-        $user->block();
+        $user->activate();
 
         $this->expectExceptionMessage('User is already active.');
         $user->activate();
