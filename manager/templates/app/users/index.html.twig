@@ -17,6 +17,7 @@
 
     <div class="card">
         <div class="card-body">
+
             {{ form_start(form) }}
             <div class="row">
                 <div class="col-md-2">{{ form_widget(form.name) }}</div>
@@ -29,6 +30,7 @@
                 </div>
             </div>
             {{ form_end(form) }}
+
         </div>
     </div>
 
@@ -44,10 +46,10 @@
             </tr>
             </thead>
             <tbody>
-            {% for user in users %}
+            {% for user in pagination %}
                 <tr>
                     <td>{{ user.date|date('Y-m-d') }}</td>
-                    <td><a href="{{ path('users.show', {'id': user.id}) }}">{{ user.name}}</a></td>
+                    <td><a href="{{ path('users.show', {'id': user.id}) }}">{{ user.name }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>{{ user_role(user.role) }}</td>
                     <td>{{ user_status(user.status) }}</td>
@@ -55,6 +57,10 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
     </div>
 
 {% endblock %}
