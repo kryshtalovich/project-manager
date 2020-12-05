@@ -29,7 +29,7 @@ class RequestTest extends TestCase
             ->viaEmail($email = new Email('new@app.test'))
             ->confirmed()->build();
 
-        $this->expectExceptionMessage('Email is already same!');
+        $this->expectExceptionMessage('Email is already same.');
         $user->requestEmailChanging($email, 'token');
     }
 
@@ -37,7 +37,7 @@ class RequestTest extends TestCase
     {
         $user = (new UserBuilder())->viaEmail()->build();
 
-        $this->expectExceptionMessage('User is not active!');
+        $this->expectExceptionMessage('User is not active.');
         $user->requestEmailChanging(new Email('new@app.test'), 'token');
     }
 }

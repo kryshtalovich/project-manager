@@ -12,10 +12,10 @@ class RequestTest extends TestCase
 {
     public function testSuccess(): void
     {
-        $user = (new UserBuilder())->viaEmail()->confirmed()->build();
-
         $now = new \DateTimeImmutable();
         $token = new ResetToken('token', $now->modify('+1 day'));
+
+        $user = (new UserBuilder())->viaEmail()->confirmed()->build();
 
         $user->requestPasswordReset($token, $now);
 
@@ -31,7 +31,7 @@ class RequestTest extends TestCase
 
         $user->requestPasswordReset($token, $now);
 
-        $this->expectExceptionMessage('Resetting is already requested!');
+        $this->expectExceptionMessage('Resetting is already requested.');
 
         $user->requestPasswordReset($token, $now);
     }
@@ -58,9 +58,9 @@ class RequestTest extends TestCase
         $now = new \DateTimeImmutable();
         $token = new ResetToken('token', $now->modify('+1 day'));
 
-        $user = $user = (new UserBuilder())->viaEmail()->build();
+        $user = (new UserBuilder())->viaEmail()->build();
 
-        $this->expectExceptionMessage('User is not active!');
+        $this->expectExceptionMessage('User is not active.');
         $user->requestPasswordReset($token, $now);
     }
 
@@ -71,7 +71,7 @@ class RequestTest extends TestCase
 
         $user = (new UserBuilder())->viaNetwork()->build();
 
-        $this->expectExceptionMessage('Email is not specified!');
+        $this->expectExceptionMessage('Email is not specified.');
         $user->requestPasswordReset($token, $now);
     }
 }
