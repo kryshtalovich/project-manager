@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "knplabs/knp-paginator-bundle": "*",
         "knpuniversity/oauth2-client-bundle": "^1.28",
         "league/oauth2-facebook": "^2.0",
         "predis/predis": "^v1.1.6",

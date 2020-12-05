@@ -8,6 +8,7 @@ use App\Model\User\Entity\User\User;
 use App\Model\User\UseCase\Create;
 use App\Model\User\UseCase\Role;
 use App\Model\User\UseCase\Edit;
+use App\ReadModel\User\Filter;
 use App\ReadModel\User\UserFetcher;
 use Psr\Log\LoggerInterface;
 use App\Model\User\UseCase\SignUp\Confirm;
@@ -23,6 +24,7 @@ use App\Model\User\UseCase\Block;
  */
 class UsersController extends AbstractController
 {
+    private const PER_PAGE = 10;
     private $logger;
 
     public function __construct(LoggerInterface $logger)
@@ -38,9 +40,22 @@ class UsersController extends AbstractController
      */
     public function index(Request $request, UserFetcher $fetcher): Response
     {
-        $users = $fetcher->all();
+        $filter = new Filter\Filter();
 
-        return $this->render('app/users/index.html.twig', compact('users'));
+        $form = $this->createForm(Filter\Form::class, $filter);
+        $form->handleRequest($request);
+
+        $pagination = $fetcher->all(
+            $filter,
+            $request->query->getInt('page', 1),
+            self::PER_PAGE,
+            $request->query->get('sort', 'date'),
+            $request->query->get('direction', 'desc')
+        );
+        return $this->render('app/users/index.html.twig', [
+            'pagination' => $pagination,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
