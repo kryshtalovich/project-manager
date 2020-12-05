@@ -7,7 +7,7 @@ return [
     'Incorrect or confirmed token!' => 'Некорректный или уже активированный токен!',
     'User already exist!' => 'Пользователь уже существует',
 
-    'Resetting is already requested!' => 'Восстановление уже запрошено!',
+    'Resetting is already requested.' => 'Восстановление уже запрошено!',
     'Resetting is not requested.' => 'Восстановление не запрошено.',
     'Reset token is expired.' => 'Время действия токена истекло.'
 ];
